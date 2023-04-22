@@ -5,6 +5,7 @@ import "./App.css";
 import ItemList from "./components/items-list.component";
 import AddItem from "./components/add-item.component";
 import UserLogin from "./components/user-login.component";
+import Item from "./components/item.component";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
               </Link>
             </li>
             <li className="nav-item">
-              <Link to={"/login"} className="nav-link">
+              <Link to={"/admin"} className="nav-link">
                 Admin
               </Link>
             </li>
@@ -30,7 +31,8 @@ function App() {
           <Routes>
             <Route path="/" element={<ItemList/>} />
             <Route path="/add" element={<AddItem/>} />
-            <Route path="/login" element={<UserLogin/>} />
+            <Route path="/admin" element={<UserLogin/>} />
+            <Route path="/update/:name" element={<Item/>} />
           </Routes>
         </div>
     </div>

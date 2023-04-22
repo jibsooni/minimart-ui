@@ -103,7 +103,7 @@ export default class AddItem extends Component {
                 {this.state.submitted ? (
                     <div>
                         <h4>New Item Created!</h4>
-                        <button className="btn btn-success" onClick={this.newTutorial}>
+                        <button className="btn btn-success" onClick={this.newItem}>
                             Add
                         </button>
                     </div>

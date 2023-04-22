@@ -9,7 +9,7 @@ class MinimartService {
     return http.get(`/item/${name}`);
   }
 
-  get(category) {
+  getByCategory(category) {
     return http.get(`/item/${category}`);
   }
 

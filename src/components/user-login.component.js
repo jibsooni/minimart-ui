@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import minimartService from "../services/minimart.service";
+import AddItem from "./add-item.component";
+import { Link } from "react-router-dom";
+import { withRouter } from '../common/with-router';
 
 export default class UserLogin extends Component {
     constructor(props) {
@@ -8,6 +11,8 @@ export default class UserLogin extends Component {
         this.onChangePassword = this.onChangePassword.bind(this);
         this.sendLogin = this.sendLogin.bind(this);
         this.preLogin = this.preLogin.bind(this);
+        this.retrieveItems = this.retrieveItems.bind(this);
+        this.routeChange = this.routeChange.bind(this);
 
         this.state = {
             username: "",
@@ -15,7 +20,8 @@ export default class UserLogin extends Component {
             isAdmin: false,
             submitted: false,
 
-            loggedIn: false
+            loggedIn: false,
+            items: []
         };
     }
 
@@ -45,6 +51,13 @@ export default class UserLogin extends Component {
                         role: response.data.role,
                         loggedIn: true
                     })
+                    if (this.state.role == "Administrator") {
+                        this.setState({
+                            isAdmin: true
+                        })
+                    }
+                } else {
+                    alert("wrong username or password");
                 }
                 console.log(response.data);
             })
@@ -61,13 +74,74 @@ export default class UserLogin extends Component {
             loggedIn: false
         });
     }
+
+    componentDidMount() {
+        this.retrieveItems();
+    }
+
+    retrieveItems() {
+        minimartService.getAll()
+            .then(response => {
+                this.setState({
+                    items: response.data
+                });
+                console.log(response.data);
+            })
+            .catch(e => {
+                console.warn(e);
+            });
+    }
+
+
+    routeChange() {
+        let path = '/update';
+        this.props.history.push(`${process.env.PUBLIC_URL}/update`);
+        // let withRefresh = createBrowserHistory({ forceRefresh: true });
+        // withRefresh.push({
+        //     pathname: `${process.env.PUBLIC_URL}/update`,
+        //     state: { item: this.state.item }
+        // })
+
+    }
     
     render() {
+        const { items } = this.state;
         return (
             <div className="submit-form">
-                {this.state.loggedIn ? (
+                {(this.state.loggedIn && this.state.isAdmin) ? (
                     <div>
-                        <h4>Successful login!</h4>
+                        <table className="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Category</th>
+                                <th>Item</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Update</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {items && items.map(item =>
+                            <tr key={item.id}>
+                                <td>{item.category}</td>
+                                <td>{item.name}</td>
+                                <td>${item.price}</td>
+                                <td>{item.stock}</td>
+                                <td>
+                                <button
+                                    className="m-3 btn btn-sm btn-success">
+                                    <Link
+                                        to={"/update/" + item.name}
+                                        className="btn btn-success"
+                                    >
+                                        Update
+                                    </Link>
+                                </button>   
+                                </td>
+                            </tr>
+                        )}
+                        </tbody>
+                    </table>
                     </div>
                 ) : (
                     <div>
