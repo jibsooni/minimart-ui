@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import minimartService from "../services/minimart.service";
-import AddItem from "./add-item.component";
 import { Link } from "react-router-dom";
-import { withRouter } from '../common/with-router';
 
 export default class UserLogin extends Component {
     constructor(props) {
@@ -51,7 +49,7 @@ export default class UserLogin extends Component {
                         role: response.data.role,
                         loggedIn: true
                     })
-                    if (this.state.role == "Administrator") {
+                    if (this.state.role === "Administrator") {
                         this.setState({
                             isAdmin: true
                         })
@@ -90,18 +88,6 @@ export default class UserLogin extends Component {
             .catch(e => {
                 console.warn(e);
             });
-    }
-
-
-    routeChange() {
-        let path = '/update';
-        this.props.history.push(`${process.env.PUBLIC_URL}/update`);
-        // let withRefresh = createBrowserHistory({ forceRefresh: true });
-        // withRefresh.push({
-        //     pathname: `${process.env.PUBLIC_URL}/update`,
-        //     state: { item: this.state.item }
-        // })
-
     }
     
     render() {
@@ -142,7 +128,18 @@ export default class UserLogin extends Component {
                         )}
                         </tbody>
                     </table>
+                    <div>
+                        <button
+                            className="m-3 btn btn-sm btn-success">
+                            <Link
+                                to={"/add"}
+                                className="btn btn-success"
+                            >
+                                Add Item
+                            </Link>
+                        </button>   
                     </div>
+                </div>
                 ) : (
                     <div>
                         <div className="form-group">
@@ -176,7 +173,6 @@ export default class UserLogin extends Component {
                 )
 
                 }
-
             </div>
         )
     }

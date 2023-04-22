@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
@@ -15,11 +15,11 @@ function App() {
           <h2>UncleJack's Minimart</h2>
         </Link>
         <div className="navbar-nav mr-auto">
-            <li className="nav-item">
+            {/* <li className="nav-item">
               <Link to={"/add"} className="nav-link">
                 Add
               </Link>
-            </li>
+            </li> */}
             <li className="nav-item">
               <Link to={"/admin"} className="nav-link">
                 Admin
